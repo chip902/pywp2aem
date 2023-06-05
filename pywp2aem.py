@@ -32,10 +32,10 @@ def sanitize_title(title):
     return sanitized_title
 
 def create_aem_page(page_title, aem_folder_path, aem_base_url, aem_username, aem_password):
-    folder_url = aem_base_url + aem_folder_path + ".html"
-    response = requests.get(folder_url, auth=(aem_username, aem_password))
+    page_url = aem_base_url + aem_folder_path + ".html"
+    response = requests.get(page_url, auth=(aem_username, aem_password))
     if response.status_code == 200:
-        print("AEM folder already exists:", aem_folder_path)
+        print("AEM page already exists:", aem_folder_path)
         return
 
     page_url = aem_base_url + aem_folder_path + page_title.replace(' ', '-') + ".html"  # Remove the extra slash
@@ -119,7 +119,7 @@ def parse_wordpress_export(export_file, aem_base_url, aem_username, aem_password
             urls = extract_media_urls(content)
 
             # Create a DAM folder to store the media files
-            folder_path = "/content/dam/" + export_file.strip('.xml') + "/" + title
+            folder_path = "/content/dam/" + os.path.splitext(export_file)[0] + "/" + sanitize_title(title)
             create_aem_folder(folder_path, aem_base_url, aem_username, aem_password)
 
             # Import each media file into the DAM folder
@@ -131,6 +131,7 @@ def parse_wordpress_export(export_file, aem_base_url, aem_username, aem_password
             create_aem_folder(folder_path, aem_base_url, aem_username, aem_password)
             create_aem_page(title, folder_path, aem_base_url, aem_username, aem_password)
             import_page_content(folder_path, title, content, aem_base_url, aem_username, aem_password)
+
 
 
 def extract_media_urls(content):
