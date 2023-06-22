@@ -39,7 +39,7 @@ def process_page_node(page_node):
 namespaces = {'wp': 'http://wordpress.org/export/1.2/'}
 
 # Parse the XML file
-tree = ET.parse('chip.xml')
+tree = ET.parse('wordpress_export.xml')
 root = tree.getroot()
 
 # Find all post nodes in the XML file
@@ -100,7 +100,7 @@ assets_dir = os.path.join(temp_dir, 'jcr_root', 'content', 'my-site', 'assets')
 os.makedirs(assets_dir, exist_ok=True)
 
 # Assuming the assets are located in a specific directory in the WordPress export file
-assets_source_dir = 'wp-content/'
+assets_source_dir = 'wp-content/uploads'
 shutil.copytree(assets_source_dir, assets_dir)
 
 # Create the META-INF folder in the temporary directory
