@@ -7,8 +7,9 @@ __pycache__/
 # C extensions
 *.so
 
-# Keep Local XML Export Files Local
+# Keep Local XML and ZIP Export Files Local
 *.xml
+*.zip
 
 # Distribution / packaging
 .Python
